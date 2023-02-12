@@ -11,7 +11,7 @@ const pool = new Pool({
 
 // the following assumes that you named your connection variable `pool`
 pool.query(`SELECT title FROM properties LIMIT 10;`)
-.then(response => {console.log(response)});
+  .then(response => { console.log(response) });
 
 /// Users
 
@@ -20,19 +20,16 @@ pool.query(`SELECT title FROM properties LIMIT 10;`)
  * @param {String} email The email of the user.
  * @return {Promise<{}>} A promise to the user.
  */
-const getUserWithEmail = function(email) {
-  return pool.query(`SELECT * FROM users WHERE email = $1` [email])
-  .then((result) => {
-    if (result.row) {
+const getUserWithEmail = function (email) {
+  return pool.query(`SELECT * FROM users WHERE email = $1`, [email])
+    .then((result) => {
       return result.rows[0];
-    } else {
-      return null;
-    }
-  })
-  .catch((err) => {
-    console.log(err.message)
-  });
+    })
+    .catch((err) => {
+      console.log(err.message)
+    });
 };
+
 exports.getUserWithEmail = getUserWithEmail;
 
 /**
@@ -40,18 +37,14 @@ exports.getUserWithEmail = getUserWithEmail;
  * @param {string} id The id of the user.
  * @return {Promise<{}>} A promise to the user.
  */
-const getUserWithId = function(id) {
-  return pool.query(`SELECT * FROM users WHERE id = $1` [id])
-  .then((result) => {
-    if (result.rows) {
+const getUserWithId = function (id) {
+  return pool.query(`SELECT * FROM users WHERE id = $1`, [id])
+    .then((result) => {
       return result.rows[0];
-    } else {
-      return null;
-    }
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 };
 
 exports.getUserWithId = getUserWithId;
@@ -61,15 +54,15 @@ exports.getUserWithId = getUserWithId;
  * @param {{name: string, password: string, email: string}} user
  * @return {Promise<{}>} A promise to the user.
  */
-const addUser =  function(user) {
- return pool.query(`INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *` [user.name, user.password, user.email])
- .then((result) => {
-  return result.rows[0];
- })
- .catch((err) => {
-  console.log(err.message);
- });
-}
+const addUser = function (user) {
+  return pool.query(`INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *`, [user.name, user.password, user.email])
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
 
 exports.addUser = addUser;
 
@@ -80,7 +73,7 @@ exports.addUser = addUser;
  * @param {string} guest_id The id of the user.
  * @return {Promise<[{}]>} A promise to the reservations.
  */
-const getAllReservations = function(guest_id, limit = 10) {
+const getAllReservations = function (guest_id, limit = 10) {
   return getAllProperties(null, 2);
 }
 exports.getAllReservations = getAllReservations;
@@ -112,7 +105,7 @@ exports.getAllProperties = getAllProperties;
  * @param {{}} property An object containing all of the property details.
  * @return {Promise<{}>} A promise to the property.
  */
-const addProperty = function(property) {
+const addProperty = function (property) {
   const propertyId = Object.keys(properties).length + 1;
   property.id = propertyId;
   properties[propertyId] = property;
